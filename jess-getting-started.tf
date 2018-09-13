@@ -19,6 +19,7 @@ provider "aws" {
 resource "aws_instance" "jess-getting-started" {
   ami = "${var.ami_id}"
   instance_type = "t3.micro"
+  subnet_id = "${var.subnet_id}"
   tags {
     // Populates "Name" column on EC2 instance dashboard - note: `Name` is case sensitive
     Name = "jess-getting-started"
@@ -29,4 +30,10 @@ resource "aws_instance" "jess-getting-started" {
 // adding an additional resource to the instance - elastic ip just for testing purposes here
 resource "aws_eip" "ip" {
   instance = "${aws_instance.jess-getting-started.id}"
+}
+
+
+// add output variable for elastic ip accessible through `terraform output` and prints out during `terraform apply`
+output "ip" {
+  value = "${aws_eip.ip.public_ip}"
 }
