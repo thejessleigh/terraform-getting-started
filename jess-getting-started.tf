@@ -20,12 +20,13 @@ resource "aws_instance" "jess-getting-started" {
   ami = "${var.ami_id}"
   instance_type = "t3.micro"
   tags {
+    // Populates "Name" column on EC2 instance dashboard - note: `Name` is case sensitive
     Name = "jess-getting-started"
   }
 }
 
 
 // adding an additional resource to the instance - elastic ip just for testing purposes here
-//resource "aws_eip" "ip" {
-//  instance = "${aws_instance.jess-getting-started.id}"
-//}
+resource "aws_eip" "ip" {
+  instance = "${aws_instance.jess-getting-started.id}"
+}
